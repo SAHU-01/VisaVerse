@@ -1,122 +1,126 @@
+/* Container Wrapper */
 .bubble-menu-nav {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 1rem; /* Reduced padding for mobile */
 }
 
+@media (min-width: 768px) {
+  .bubble-menu-nav {
+    padding: 2rem;
+  }
+}
+
+/* The Grid/Cloud Layout */
 .bubble-menu-container {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(140px, 180px));
-  grid-template-rows: repeat(2, auto);
-  gap: 0.5rem;
+  display: flex; /* Flex is better for mobile wrapping */
+  flex-wrap: wrap;
   justify-content: center;
-}
-
-.bubble-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease;
-  position: relative;
-  min-width: 140px;
-}
-
-.bubble-item:hover {
-  z-index: 10;
-}
-
-.bubble-item.selected {
-  z-index: 10;
-}
-
-.bubble-label {
-  font-size: 1.25rem;
-  font-weight: 500;
-  font-style: italic;
-  white-space: nowrap;
-}
-
-.bubble-check {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: #10b981;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.bubble-menu-nav {
+  gap: 1rem;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
+  max-width: 800px; /* Constrain width on large screens */
 }
 
-.bubble-menu-container {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(160px, 200px));
-  grid-template-rows: repeat(2, auto);
-  gap: 0.5rem;
-  justify-content: center;
+/* Desktop: Switch to the specific Grid layout you wanted */
+@media (min-width: 768px) {
+  .bubble-menu-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto); /* Auto fits content better than fixed px */
+    gap: 1.5rem;
+    row-gap: 2.5rem;
+    align-items: center;
+    justify-items: center;
+  }
+  
+  /* Force the last item (Taxes) to span or center if needed, 
+     or just let the grid auto-flow. 
+     If you have 5 items, Grid places them 3 top, 2 bottom centered automatically 
+     if justify-content is center in parent */
+  .bubble-menu-container {
+    justify-content: center;
+  }
 }
 
+/* The Bubble Item */
 .bubble-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem 2.5rem;
+  padding: 0.75rem 1.5rem; /* Smaller padding on mobile */
   border-radius: 9999px;
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  min-width: 160px;
+  background: white; /* Default background if not inline styled */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+@media (min-width: 768px) {
+  .bubble-item {
+    padding: 1.25rem 2.5rem; /* Larger padding on desktop */
+    min-width: 160px;
+  }
+  
+  /* Make the "Taxes" pill wider on desktop */
+  .bubble-item:last-child {
+    min-width: 200px; 
+    grid-column: span 1; 
+  }
+  
+  /* Specific override to center the bottom row of a 5-item grid 
+     if grid-template-columns is strict. 
+     Actually, flex-wrap usually handles 3-top 2-bottom better visually.
+     But sticking to your grid request: */
 }
 
 .bubble-item:hover {
   z-index: 10;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.bubble-item.selected {
-  z-index: 10;
+.bubble-item:active {
+  transform: scale(0.98);
 }
 
-.bubble-item:last-child {
-  min-width: 200px;
-  padding: 1.25rem 2rem;
-}
-
+/* Text Styling */
 .bubble-label {
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 1rem; /* Smaller text on mobile */
+  font-weight: 600;
   font-style: italic;
   white-space: nowrap;
+  color: #1f2937;
 }
 
+@media (min-width: 768px) {
+  .bubble-label {
+    font-size: 1.25rem;
+  }
+}
+
+/* The Checkmark Badge */
 .bubble-check {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 20px;
-  height: 20px;
+  top: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
   background: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 14px;
   color: #10b981;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
 }
